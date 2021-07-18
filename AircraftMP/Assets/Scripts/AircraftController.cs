@@ -54,9 +54,9 @@ public class AircraftController : MonoBehaviour
 
             Vector3 planeToEnemy = _target.transform.position - transform.position;
 
-            print(DotProduct(_target.transform.forward.normalized, planeToEnemy.normalized));
+            print(Vector3.Dot(_target.transform.forward.normalized, planeToEnemy.normalized));
 
-            if (DotProduct(_target.transform.forward.normalized, planeToEnemy.normalized) > 0.5f)
+            if (Vector3.Dot(_target.transform.forward.normalized, planeToEnemy.normalized) > 0.5f)
             {
                 print("Önünde");
             }
@@ -93,13 +93,6 @@ public class AircraftController : MonoBehaviour
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0f), 0.001f);
         }
-    }
-
-
-
-    private float DotProduct(Vector3 a, Vector3 b)
-    {
-        return a.x * b.x + a.y * b.y + a.z * b.z;
     }
 
 }
