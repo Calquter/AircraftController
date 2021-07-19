@@ -18,6 +18,9 @@ public class AircraftController : MonoBehaviour
 
     private bool _isRight;
 
+    [SerializeField] private GameObject _enemyTarget;
+    [SerializeField] private bool _isLocked;
+
     [Header("Inputs")]
     private float _horizontalAxis;
     private float _verticalAxis;
@@ -128,12 +131,26 @@ public class AircraftController : MonoBehaviour
         {
             if (_isRight)
             {
-                Instantiate(_rocket, _rocketLaunchers[0].transform.position, _rocketLaunchers[0].transform.rotation);
+                GameObject rocketRight = Instantiate(_rocket, _rocketLaunchers[0].transform.position, _rocketLaunchers[0].transform.rotation);
+
+                if (_isLocked)
+                {
+                    rocketRight.GetComponent<Bullet>().followTarget = _enemyTarget.transform;
+                    rocketRight.GetComponent<Bullet>().isFollowing = true;
+                }
+
                 _isRight = false;
             }
             else
             {
-                Instantiate(_rocket, _rocketLaunchers[1].transform.position, _rocketLaunchers[1].transform.rotation);
+                GameObject rocketLeft = Instantiate(_rocket, _rocketLaunchers[1].transform.position, _rocketLaunchers[1].transform.rotation);
+
+                if (_isLocked)
+                {
+                    rocketLeft.GetComponent<Bullet>().followTarget = _enemyTarget.transform;
+                    rocketLeft.GetComponent<Bullet>().isFollowing = true;
+                }
+
                 _isRight = true;
             }
 
