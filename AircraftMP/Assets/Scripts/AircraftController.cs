@@ -6,16 +6,19 @@ public class AircraftController : MonoBehaviour
 {
 
     [Header("General")]
-    [SerializeField] private Rigidbody _rigidBody;
-
     [SerializeField] private float _moveSpeed;
 
     [SerializeField] private Transform _target;
+
+    [SerializeField] private List<GameObject> _weapons;
+    [SerializeField] private GameObject _bullet;
 
     [Header("Inputs")]
     private float _horizontalAxis;
     private float _verticalAxis;
 
+
+    
 
     [Header("General Settings")]
     [SerializeField] private float _rotateSpeed;
@@ -28,6 +31,10 @@ public class AircraftController : MonoBehaviour
     private float _verticalAxisTimer;
     private float _HorizontalAxisTimer;
 
+    [SerializeField] private float _defaultShootTimer;
+
+    private float _shootCDtimer;
+
 
 
     void Start()
@@ -38,7 +45,6 @@ public class AircraftController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
-        _rigidBody = GetComponent<Rigidbody>();
     }
 
 
@@ -47,12 +53,15 @@ public class AircraftController : MonoBehaviour
         RotateAircraft();
         AircraftDefault();
         MoveForward();
+        Shoot();
 
 
         if (Input.GetKeyDown(KeyCode.Space))
         {
 
             Vector3 planeToEnemy = _target.transform.position - transform.position;
+
+            planeToEnemy.Normalize();
 
             print(Vector3.Dot(_target.transform.forward.normalized, planeToEnemy.normalized));
 
@@ -91,7 +100,26 @@ public class AircraftController : MonoBehaviour
 
         if (_horizontalAxis == 0)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0f), 0.001f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0f), 0.003f);
+        }
+    }
+
+    private void Shoot()
+    {
+        if (Input.GetMouseButton(0) && _shootCDtimer <= 0)
+        {
+
+            foreach (var item in _weapons)
+            {
+                Instantiate(_bullet, item.transform.position, item.transform.rotation);
+            }
+
+            _shootCDtimer = _defaultShootTimer;
+        }
+
+        if (_shootCDtimer >= 0)
+        {
+            _shootCDtimer -= Time.deltaTime;
         }
     }
 
