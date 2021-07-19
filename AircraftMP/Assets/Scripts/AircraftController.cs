@@ -13,6 +13,11 @@ public class AircraftController : MonoBehaviour
     [SerializeField] private List<GameObject> _weapons;
     [SerializeField] private GameObject _bullet;
 
+    [SerializeField] private List<GameObject> _rocketLaunchers;
+    [SerializeField] private GameObject _rocket;
+
+    private bool _isRight;
+
     [Header("Inputs")]
     private float _horizontalAxis;
     private float _verticalAxis;
@@ -28,22 +33,19 @@ public class AircraftController : MonoBehaviour
 
     [SerializeField] private float _defaultRotTimerMax;
 
-    private float _verticalAxisTimer;
-    private float _HorizontalAxisTimer;
-
     [SerializeField] private float _defaultShootTimer;
 
     private float _shootCDtimer;
+    private float _rocketCDTimer;
 
 
 
     void Start()
     {
-        _verticalAxisTimer = _defaultRotTimerMax;
-        _HorizontalAxisTimer = _defaultRotTimerMax;
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+        _isRight = true;
 
     }
 
@@ -120,6 +122,27 @@ public class AircraftController : MonoBehaviour
         if (_shootCDtimer >= 0)
         {
             _shootCDtimer -= Time.deltaTime;
+        }
+
+        if (Input.GetMouseButton(1) && _rocketCDTimer <= 0)
+        {
+            if (_isRight)
+            {
+                Instantiate(_rocket, _rocketLaunchers[0].transform.position, _rocketLaunchers[0].transform.rotation);
+                _isRight = false;
+            }
+            else
+            {
+                Instantiate(_rocket, _rocketLaunchers[1].transform.position, _rocketLaunchers[1].transform.rotation);
+                _isRight = true;
+            }
+
+            _rocketCDTimer = _defaultShootTimer * 4;
+        }
+
+        if (_rocketCDTimer >= 0)
+        {
+            _rocketCDTimer -= Time.deltaTime;
         }
     }
 
