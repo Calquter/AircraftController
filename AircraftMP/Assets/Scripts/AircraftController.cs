@@ -7,6 +7,7 @@ public class AircraftController : MonoBehaviour
 
     [Header("General")]
     [SerializeField] private float _moveSpeed;
+    [SerializeField] private float _moveSpeedControlMultiplier;
 
     [SerializeField] private Transform _target;
 
@@ -23,6 +24,7 @@ public class AircraftController : MonoBehaviour
 
     [Header("Inputs")]
     private float _horizontalAxis;
+    private float _rollAxis;
     private float _verticalAxis;
 
 
@@ -59,38 +61,36 @@ public class AircraftController : MonoBehaviour
         AircraftDefault();
         MoveForward();
         Shoot();
-
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-
-            Vector3 planeToEnemy = _target.transform.position - transform.position;
-
-            planeToEnemy.Normalize();
-
-            print(Vector3.Dot(_target.transform.forward.normalized, planeToEnemy.normalized));
-
-            if (Vector3.Dot(_target.transform.forward.normalized, planeToEnemy.normalized) > 0.5f)
-            {
-                print("Önünde");
-            }
-            else
-            {
-                print("Arkanda");
-            }
-
-        }
+        ControlMovementSpeed();
     }
 
 
     private void RotateAircraft()
     {
 
-        _horizontalAxis = Input.GetAxis("Horizontal");
+        _rollAxis = Input.GetAxis("Horizontal");
 
         _verticalAxis = Input.GetAxis("Vertical");
 
-        transform.Rotate(_verticalAxis * (_rotateSpeed / 2) * Time.deltaTime, 0, -_horizontalAxis * (_rotateSpeed / 0.75f) * Time.deltaTime);
+       
+
+        if (Input.GetKey(KeyCode.Q))
+        {
+            _horizontalAxis = -1;
+        }
+        else if (Input.GetKey(KeyCode.E))
+        {
+            _horizontalAxis = 1;
+        }
+        else
+        {
+            _horizontalAxis = 0;
+        }
+
+        transform.Rotate(_verticalAxis * (_rotateSpeed / 2) * Time.deltaTime, _horizontalAxis * (_rotateSpeed / 6) * Time.deltaTime, -_rollAxis * (_rotateSpeed / 0.75f) * Time.deltaTime);
+
+
+       
 
     }
 
@@ -103,14 +103,27 @@ public class AircraftController : MonoBehaviour
     private void AircraftDefault()
     {
 
-        if (_horizontalAxis == 0)
+        if (_rollAxis == 0)
         {
-            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0f), 0.003f);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y, 0f), 0.0015f);
         }
     }
 
     private void Shoot()
     {
+        Vector3 planeToEnemy = _target.transform.position - transform.position;
+
+        float dotProductValue = Vector3.Dot(transform.forward.normalized, planeToEnemy.normalized);
+
+        if (dotProductValue >= 0.8f)
+        {
+            _isLocked = true;
+        }
+        else
+        {
+            _isLocked = false;
+        }
+
         if (Input.GetMouseButton(0) && _shootCDtimer <= 0)
         {
 
@@ -162,5 +175,34 @@ public class AircraftController : MonoBehaviour
             _rocketCDTimer -= Time.deltaTime;
         }
     }
+
+
+    private void ControlMovementSpeed()
+    {
+
+        if (Input.GetKey(KeyCode.LeftControl) && _moveSpeed > 25)
+        {
+            _moveSpeed -= _moveSpeedControlMultiplier * Time.deltaTime;
+
+            if (_moveSpeed < 25)
+            {
+                _moveSpeed = 25;
+            }
+
+        }
+        else if (Input.GetKey(KeyCode.LeftShift) && _moveSpeed < 100)
+        {
+            _moveSpeed += _moveSpeedControlMultiplier * Time.deltaTime;
+
+            if (_moveSpeed > 100)
+            {
+                _moveSpeed = 100;
+            }
+        }
+
+  
+    }
+
+ 
 
 }

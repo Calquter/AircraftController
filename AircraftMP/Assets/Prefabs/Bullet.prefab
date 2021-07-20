@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7735862579858517731}
   - component: {fileID: 2906050816682646128}
   - component: {fileID: 2450620332315450211}
+  - component: {fileID: 735830779440334173}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -96,6 +97,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _bulletSpeed: 350
+  followTarget: {fileID: 0}
+  isRocket: 0
+  isFollowing: 0
 --- !u!64 &2450620332315450211
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -110,3 +114,16 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &735830779440334173
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7735862579858517729}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edd36742a75f40744bc8f09a5d660ae9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _timer: 3

@@ -6348,7 +6348,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 6a779adc7ea51234aa44bb460e48417b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -6387,7 +6387,7 @@ Transform:
   m_GameObject: {fileID: 1349722125}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 3.6168098, y: 23.19, z: 89.81}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 29.385, y: 29.385, z: 29.385}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
@@ -10777,6 +10777,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1349722125}
     - target: {fileID: 1364124295, guid: 16fd4aaa6aa0974498522b5a2a0645e1, type: 3}
+      propertyPath: _moveSpeedControlMultiplier
+      value: 65
+      objectReference: {fileID: 0}
+    - target: {fileID: 1364124295, guid: 16fd4aaa6aa0974498522b5a2a0645e1, type: 3}
       propertyPath: _rocketLaunchers.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -10788,6 +10792,14 @@ PrefabInstance:
       propertyPath: _rocketLaunchers.Array.data[1]
       value: 
       objectReference: {fileID: 164090442}
+    - target: {fileID: 1507550913, guid: 16fd4aaa6aa0974498522b5a2a0645e1, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 74.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1507550913, guid: 16fd4aaa6aa0974498522b5a2a0645e1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 4.9
+      objectReference: {fileID: 0}
     - target: {fileID: 1507550916, guid: 16fd4aaa6aa0974498522b5a2a0645e1, type: 3}
       propertyPath: m_Camera
       value: 
