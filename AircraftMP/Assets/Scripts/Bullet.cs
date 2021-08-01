@@ -30,4 +30,30 @@ public class Bullet : MonoBehaviour
             transform.rotation = Quaternion.Lerp(transform.rotation, newRotation, 0.01f);
         }
     }
+
+
+
+    private void OnTriggerEnter(Collider other)
+    {
+
+        if (other.tag == "Enemy")
+        {
+            isFollowing = false;
+
+            if (isRocket)
+            {
+                Destroy(other.gameObject);
+            }
+            else
+            {
+                if (other.gameObject.GetComponent<AircraftController>())
+                {
+                    other.gameObject.GetComponent<AircraftController>().health -= 20;
+                }
+            }
+            
+            Destroy(this.gameObject);
+
+        }
+    }
 }

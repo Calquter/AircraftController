@@ -5,6 +5,12 @@ using UnityEngine;
 public class AircraftController : MonoBehaviour
 {
 
+    [Header("Stats")]
+
+    public int health;
+
+
+
     [Header("General")]
     [SerializeField] private float _moveSpeed;
     [SerializeField] private float _moveSpeedControlMultiplier;
@@ -43,15 +49,14 @@ public class AircraftController : MonoBehaviour
     private float _shootCDtimer;
     private float _rocketCDTimer;
 
+    private List<int> deneme;
 
 
     void Start()
     {
-
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
         _isRight = true;
-
     }
 
 
@@ -111,18 +116,28 @@ public class AircraftController : MonoBehaviour
 
     private void Shoot()
     {
-        Vector3 planeToEnemy = _target.transform.position - transform.position;
-
-        float dotProductValue = Vector3.Dot(transform.forward.normalized, planeToEnemy.normalized);
-
-        if (dotProductValue >= 0.8f)
+        if (_target != null)
         {
-            _isLocked = true;
+            Vector3 planeToEnemy = _target.transform.position - transform.position;
+
+            float dotProductValue = Vector3.Dot(transform.forward.normalized, planeToEnemy.normalized);
+
+            if (dotProductValue >= 0.8f)
+            {
+                _isLocked = true;
+            }
+            else
+            {
+                _isLocked = false;
+            }
         }
         else
         {
             _isLocked = false;
         }
+        
+
+        
 
         if (Input.GetMouseButton(0) && _shootCDtimer <= 0)
         {
@@ -201,6 +216,14 @@ public class AircraftController : MonoBehaviour
         }
 
   
+    }
+
+    private void HealthCheck()
+    {
+        if (health <= 0)
+        {
+            Destroy(this.gameObject);
+        }
     }
 
  
