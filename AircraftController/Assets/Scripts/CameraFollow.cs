@@ -18,8 +18,6 @@ public class CameraFollow : MonoBehaviour
     {
         Vector3 moveCamTo = _followTarget.position - _followTarget.transform.forward * 25f + _followTarget.transform.up * 8f;
 
-        float bias = .99f;
-
         transform.position = Vector3.Lerp(transform.position, moveCamTo, 0.008f);
         transform.LookAt(_followTarget.transform.position + _followTarget.transform.forward * 50f);
     }
